@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Assignment-4</title>
+    <script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+    </script>
+</head>
+<body>
+    <form>
+        Type a question : <input id="questionId" name="question" placeholder="Question?" type="text" >
+        <input class="btn" type="button" value="Submit"><br>
+    </form>
+
+    <script>
+    $(".btn").click(function(){
+        
+    var url = "question";
+    var dataJSON = $("#questionId").val();
+
+    var data={
+        "question":dataJSON
+    }    
+    
+    console.log(JSON.stringify(data));
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:3000/"+url,
+        crossDomain : true,
+        dataType: "json",
+        data: data
+        })
+        .done(function( msg ) {
+        if(msg.answer==false){
+            msg.answer="false";
+        }
+        });    
+    });
+    </script> 
+</body>
+</html>
