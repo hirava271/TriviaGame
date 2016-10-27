@@ -37,6 +37,7 @@ app.get('/question', function(req, res) {
         });
     };
     MongoClient.connect(url, function(err, db) {
+    	//db.collection('questionTable').remove();
         assert.equal(null, err);
         findQuestions(db, function() {});
     });
@@ -46,30 +47,42 @@ app.post('/question', function(req, res) {
 
     var question = req.body["question"];
     var answer = req.body["answer"];
-    var data = req.body;
-
+   
     console.log("I am inside post function...........");
     console.log(question);
     console.log(answer);
     
     var insertDocument = function(db, callback) {
 
+    	console.log("I am inside insertDocument..");
+
     	db.collection('questionTable').insert({
     		"question" : question,
     		"answer" : answer
     	});
+	
+		var data = db.collection('questionTable').find().toArray(function(err, documents) {
 
-    	var findQuestion = function(db, callback) {
-
-        	var data = db.collection('questionTable').find().toArray(function(err, documents) {
-            	res.send(documents);
-            	db.close();
-        	});
-    	};
+            res.send(documents);
+            	//db.close();
+        });
     };
 
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
+
+        console.log("Connection established.....");
+        /*db.collection('questionTable', {}, function(err) {
+
+        	'questionTable'.remove({}, function(err, result) {
+        		if(err){
+        			console.log(err);
+        		}
+        		console.log(result);
+        		console.log('collection removed');
+        	});
+ 		});
+*/
         insertDocument(db, function() {
             db.close();
         });

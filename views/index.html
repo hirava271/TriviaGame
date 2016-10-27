@@ -16,7 +16,7 @@
         </div>
 
         <input type="button" name="playButton" value="PLAY" id="playBtnId"><br>
-        <input type="button" name="addButton" value="Add a question?" id="addQueBtnId">
+        <input type="button" name="addButton" value="Add a question?" id="addQueBtnId" style="display:none">
     </form>
 
     <script>
@@ -52,7 +52,6 @@
         })
         .done(function( msg ) {
 
-            console.log(msg);
         if(msg.answer==false){
             msg.answer="false";
         }
@@ -62,11 +61,15 @@
 
         var displayQuestions = function(element, index, array){
 
-            if(index == array.length() - 1){
+            console.log(array);
+            var len = array.length;
+            console.log(len);
+            if(index == array.length - 1){
 
                 var $item = $('<div id="allQueId" class="btn">' +
                             '<label>Question : </label><input type="text" name="que" id="queId'+ index +'"><br>' +
-                            '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>');
+                            '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>' +
+                            '<input type="button" value="Send" id="sendBtnId'+ index + '">');
 
                 $("#displayQueId").append($item);
                 $("#queId" + index).val(array[index].question);
@@ -105,7 +108,10 @@
 
                 var $item = $('<div id="allQueId" class="btn">' +
                             '<label>Question : </label><input type="text" name="que" id="queId'+ index +'"><br>' +
-                            '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>');
+                            '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>' +
+                            '<input type="button" value="Send" id="sendBtnId'+ index + '"><br>' +
+                            '<input type="button" value="Previous" id="prevBtnId">' +
+                            '<input type="button" value="Skip" id="skipBtnId">');
 
                 $("#displayQueId").append($item);
              $("#queId" + index).val(array[index].question);
