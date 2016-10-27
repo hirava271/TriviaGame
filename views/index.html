@@ -8,32 +8,111 @@
 </head>
 <body>
     <form>
-        Type a question : <input id="questionId" name="question" placeholder="Question?" type="text" >
-        <input class="btn" type="button" value="Submit"><br>
+        <div id="displayQueId"></div>
+        <div id="addQueDivId" style="display : none">
+        Type a question : <input id="questionId" name="question" placeholder="Question?" type="text" ><br>
+        Answer : <input type="text" name="answer" id="answerId" placeholder="Answer"><br>
+        <input class="btn" type="button" value="Submit" id="submitBtnId"><br>
+        </div>
+
+        <input type="button" name="playButton" value="PLAY" id="playBtnId"><br>
+        <input type="button" name="addButton" value="Add a question?" id="addQueBtnId">
     </form>
 
     <script>
+    $("#addQueBtnId").click(function(){
+
+        $("#addQueDivId").show();
+        $("#displayQueId").hide();
+        $("#addQueBtnId").hide();
+        $("#playBtnId").hide();
+    });
+
     $(".btn").click(function(){
         
     var url = "question";
-    var dataJSON = $("#questionId").val();
+    var question = $("#questionId").val();
+    console.log(question);
+    var answer = $("#answerId").val();
+    console.log(answer);
 
     var data={
-        "question":dataJSON
+        "question":question,
+        "answer":answer
     }    
     
-    console.log(JSON.stringify(data));
+    var dataJSON = JSON.stringify(data);
+    console.log(dataJSON);
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/"+url,
         crossDomain : true,
         dataType: "json",
-        data: data
+        data: data 
         })
         .done(function( msg ) {
+
+            console.log(msg);
         if(msg.answer==false){
             msg.answer="false";
         }
+        $("#displayQueId").show();
+        $("#addQueBtnId").show();
+        $("#addQueDivId").hide();
+
+        var displayQuestions = function(element, index, array){
+
+            if(index == array.length() - 1){
+
+                var $item = $('<div id="allQueId" class="btn">' +
+                            '<label>Question : </label><input type="text" name="que" id="queId'+ index +'"><br>' +
+                            '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>');
+
+                $("#displayQueId").append($item);
+                $("#queId" + index).val(array[index].question);
+            }
+
+        }
+
+        msg.forEach(displayQuestions);
+
+        });    
+    });
+
+    $("#playBtnId").click(function(){
+
+        var url = "question";
+
+        $.ajax({
+            method: "GET",
+            url: "http://localhost:3000/"+url,
+            crossDomain : true,
+            dataType: "json",
+            })
+            
+            .done(function( msg ) {
+
+            console.log(msg);
+            if(msg.answer==false){
+            msg.answer="false";
+            }
+            $("#allQueId").show();
+            $("#addQueBtnId").show();
+            $("#addQueDivId").hide();
+            $("#playBtnId").hide();
+
+            var displayQuestions = function(element, index, array){
+
+                var $item = $('<div id="allQueId" class="btn">' +
+                            '<label>Question : </label><input type="text" name="que" id="queId'+ index +'"><br>' +
+                            '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>');
+
+                $("#displayQueId").append($item);
+             $("#queId" + index).val(array[index].question);
+            }
+
+        msg.forEach(displayQuestions);
+
         });    
     });
     </script> 
