@@ -24,7 +24,6 @@ app.use(parser.urlencoded({
 app.use(parser.json());
 var url = 'mongodb://localhost:27017/triviaGame';
 app.get('/question', function(req, res) {
-    //console.log("I  am inside get question");
     var findQuestions = function(db, callback) {
         var data = db.collection('questionTable').find().toArray(function(err, documents) {
             res.json(documents);
@@ -32,7 +31,6 @@ app.get('/question', function(req, res) {
         });
     };
     MongoClient.connect(url, function(err, db) {
-        //db.collection('questionTable').remove();
         assert.equal(null, err);
         findQuestions(db, function() {});
     });
@@ -40,11 +38,7 @@ app.get('/question', function(req, res) {
 app.post('/question', function(req, res) {
     var question = req.body.question;
     var answer = req.body.answer;
-    /*console.log("I am inside post function...........");
-    console.log(question);
-    console.log(answer);*/
-    var insertDocument = function(db, callback) {
-        //console.log("I am inside insertDocument..");
+        var insertDocument = function(db, callback) {
         db.collection('questionTable').insert({
             "question": question,
             "answer": answer
@@ -56,18 +50,6 @@ app.post('/question', function(req, res) {
     };
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
-        //console.log("Connection established.....");
-        /*db.collection('questionTable', {}, function(err) {
-
-            'questionTable'.remove({}, function(err, result) {
-                if(err){
-                    console.log(err);
-                }
-                console.log(result);
-                console.log('collection removed');
-            });
-        });
-*/
         insertDocument(db, function() {
             db.close();
         });
@@ -82,13 +64,15 @@ app.post('/answer', function(req, res) {
         client.incr("right", function(err, reply) {
             console.log("Right: " + reply);
         });
-        res.json(true);
+        var data = { "correct" : true };
+        res.json(data);
     }
     if (actual != possible) {
         client.incr("wrong", function(err, reply) {
             console.log("Wrong: " + reply);
         });
-        res.json(false);
+        var data = { "correct" : false };
+        res.json(data);
     }
 });
 app.get('/score', function(req, res) {
