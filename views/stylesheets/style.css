@@ -1,0 +1,30 @@
+body{
+	padding: 50px;
+	font:14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: #4BB8F0;
+}
+
+.column{
+	max-width: 450px;
+	height: 500px;
+	margin: 70px;
+}
+
+nav{
+	background-color: #2498D3;
+}
+
+.scoreButton{
+	margin-left: 600px;
+}
+
+#allQueId{
+	position: relative;
+	text-align: center;
+	font-size: 2em;
+	background-color: #2498D3;
+	left: 100px;
+	width: 600px;
+	height: 250px;
+	border-radius: 10px;
+}
