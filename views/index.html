@@ -1,134 +1,45 @@
 <!DOCTYPE html>
 <html lang="en-US">
-<head>
-    <title>Assignment-4</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
-    </script>
-</head>
-<body>
-    <form>
-        <input id="scoreBtnId" name="score" style="display:none" type="button" value="Current Score"> <input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?"><br>
-        <div id="scoreDisplayId" style="display : none">
-            <label>Right :</label> <input id="rightId" type="text"><br>
-            <label>Wrong :</label> <input id="wrongId" type="text">
-        </div>
-        <div id="displayQueId"></div>
-        <div id="addQueDivId" style="display : none">
-            Type a question : <input id="questionId" name="question" placeholder="Question?" type="text"><br>
-            Answer : <input id="answerId" name="answer" placeholder="Answer" type="text"><br>
-            <input class="btn" id="submitBtnId" type="button" value="Submit"><br>
-        </div><input id="playBtnId" name="playButton" type="button" value="PLAY"><br>
-    </form>
-
-    <script>
-    $("#addQueBtnId").click(function() {
-    $("#addQueDivId").show();
-    $("#displayQueId").hide();
-    $("#addQueBtnId").hide();
-    $("#playBtnId").hide();
-});
-$("#scoreBtnId").click(function() {
-    $("#scoreDisplayId").show();
-    var url = "score";
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:3000/" + url,
-        crossDomain: true,
-        dataType: "json"
-    }).done(function(msg) {
-        if (msg.answer === false) {
-            msg.answer = "false";
-        }
-        console.log(msg);
-        $("#rightId").val(msg.right);
-        $("#wrongId").val(msg.wrong);
-    });
-});
-$(".btn").click(function() {
-    var url = "question";
-    var question = $("#questionId").val();
-    var answer = $("#answerId").val();
-    var data = {
-        "question": question,
-        "answer": answer
-    };
-    var dataJSON = JSON.stringify(data);
-    console.log(dataJSON);
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/" + url,
-        crossDomain: true,
-        dataType: "json",
-        data: data
-    }).done(function(msg) {
-        if (msg.answer === false) {
-            msg.answer = "false";
-        }
-        $("#displayQueId").show();
-        $("#addQueBtnId").show();
-        $("#addQueDivId").hide();
-        var displayQuestions = function(element, index, array) {
-            var len = array.length;
-            console.log(len);
-            if (index == array.length - 1) {
-                var $item = $('<div id="allQueId" class="btn">' + '<label>Question : </label><input type="text" name="que" id="queId' + index + '"><br>' + '<label>Answer : </label><input type="text" name="ans" id="ansId"><br></div>' + '<input type="button" value="Send" id="sendBtnId' + index + '">');
-                $("#displayQueId").append($item);
-                $("#queId" + index).val(array[index].question);
-            }
-        };
-        msg.forEach(displayQuestions);
-    });
-});
-$("#playBtnId").click(function() {
-    var url = "question";
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:3000/" + url,
-        crossDomain: true,
-        dataType: "json",
-    }).done(function(msg) {
-        if (msg.answer === false) {
-            msg.answer = "false";
-        }
-        $("#allQueId").show();
-        $("#scoreBtnId").show();
-        $("#addQueBtnId").show();
-        $("#addQueDivId").hide();
-        $("#playBtnId").hide();
-        var displayQuestions = function(element, index, array) {
-            var $item = $('<div id="allQueId" class="btn">' + '<label>Question : </label><input type="text" name="que" id="queId' + index + '"><br>' + '<label>Answer : </label><input type="text" name="ans" id="ansId' + index + '"><br></div>' + '<input type="button" value="Send" id="sendBtnId' + index + '"><br>');
-            $("#displayQueId").append($item);
-            $("#queId" + index).val(array[index].question);
-        };
-        msg.forEach(displayQuestions);
-        var getAnswers = function(element, index, array) {
-            $("#sendBtnId" + index).click(function() {
-                var ans = $("#ansId" + index).val();
-                var ansId = array[index]._id;
-                var actualAns = array[index].answer;
-                var url = "answer";
-                var data = {
-                    "answerId": ansId,
-                    "possibleAns": ans,
-                    "answer": actualAns
-                };
-                var dataJSON = JSON.stringify(data);
-                $.ajax({
-                    method: "POST",
-                    url: "http://localhost:3000/" + url,
-                    crossDomain: true,
-                    dataType: "json",
-                    data: data
-                }).done(function(msg) {
-                    if (msg.answer === false) {
-                        msg.answer = "false";
-                    }
-                });
-            });
-        };
-        msg.forEach(getAnswers);
-    });
-});
-    </script> 
-</body>
+   <head>
+      <title>Assignment-4</title>
+      <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+      <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src = "javascripts/app.js"></script>
+   </head>
+   <nav>
+      <div style="width:100%; height:100px" >
+         <img src="images/logo.png" style="height:100px; width: 200px ">
+      </div>
+   </nav>
+   <body>
+      <div class="ui middle aligned center aligned grid">
+         <div class="column">
+            <div id="imgId" style="float:right;"><img src="images/trivia.gif"></div>
+            <div style="float:right;">
+            <form>  
+               <input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?" class="ui blue button"><br> 
+               <div id="displayQueId"></div>
+               <div id="addQueDivId" style="display : none">
+                  <div class="ui label">Type a question</div><textarea class="ui label" id="questionId"></textarea><br>
+                  <div class="ui label">Answer</div><textarea class="ui label" id="answerId"></textarea><br>
+                  <input class="ui blue button" id="submitBtnId" type="button" value="Submit"><br>
+               </div>
+               <div class="field">
+                  <input type="text" name="userName" id="userNameId" placeholder="Enter your username">
+                  <input class="ui blue button" id="playBtnId" name="playButton" type="button" value="PLAY"><br>
+               </div>
+            </form>
+            </div>
+            <div class="scoreButton">
+               <input id="scoreBtnId" name="score" style="display:none" type="button" value="Current Score" class="ui blue button"> 
+               <div id="scoreDisplayId" style="display : none">
+                  <div class="ui label">Right :</div> <textarea class="ui label" id="rightId"></textarea><br>
+                  <div class="ui label">Wrong :</div> <textarea class="ui label" id="wrongId"></textarea>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+   </body>
 </html>

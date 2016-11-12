@@ -9,9 +9,6 @@ var express = require('express'),
     ObjectId = require('mongodb').ObjectID,
     app;
 app = express();
-app.engine('.html', require('ejs').__express);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'html');
 client.set("right", 0);
 client.set("wrong", 0);
 var jsonParser = parser.json({
@@ -22,6 +19,7 @@ app.use(parser.urlencoded({
     extended: true
 }));
 app.use(parser.json());
+app.use("/", express.static("views"));
 var url = 'mongodb://localhost:27017/triviaGame';
 app.get('/question', function(req, res) {
     var findQuestions = function(db, callback) {
