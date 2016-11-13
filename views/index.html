@@ -1,45 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-US">
-   <head>
-      <title>Assignment-4</title>
-      <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-      <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-      <script src = "javascripts/app.js"></script>
-   </head>
-   <nav>
-      <div style="width:100%; height:100px" >
-         <img src="images/logo.png" style="height:100px; width: 200px ">
-      </div>
-   </nav>
-   <body>
-      <div class="ui middle aligned center aligned grid">
-         <div class="column">
-            <div id="imgId" style="float:right;"><img src="images/trivia.gif"></div>
-            <div style="float:right;">
-            <form>  
-               <input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?" class="ui blue button"><br> 
-               <div id="displayQueId"></div>
-               <div id="addQueDivId" style="display : none">
-                  <div class="ui label">Type a question</div><textarea class="ui label" id="questionId"></textarea><br>
-                  <div class="ui label">Answer</div><textarea class="ui label" id="answerId"></textarea><br>
-                  <input class="ui blue button" id="submitBtnId" type="button" value="Submit"><br>
-               </div>
-               <div class="field">
-                  <input type="text" name="userName" id="userNameId" placeholder="Enter your username">
-                  <input class="ui blue button" id="playBtnId" name="playButton" type="button" value="PLAY"><br>
-               </div>
-            </form>
-            </div>
-            <div class="scoreButton">
-               <input id="scoreBtnId" name="score" style="display:none" type="button" value="Current Score" class="ui blue button"> 
-               <div id="scoreDisplayId" style="display : none">
-                  <div class="ui label">Right :</div> <textarea class="ui label" id="rightId"></textarea><br>
-                  <div class="ui label">Wrong :</div> <textarea class="ui label" id="wrongId"></textarea>
-               </div>
-            </div>
-         </div>
-      </div>
-      </div>
-   </body>
+<head>
+	<title>Assignment-4</title>
+	<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src = "javascripts/app.js"></script>
+</head>
+<body>
+	<header>
+		<nav>
+			<div>
+				<img src="images/logo.png" style="height:100px; width: 200px ">
+			</div>
+		</nav>
+	</header>
+
+	<main>
+		<div id="scoreDivId" class="scoreButton threeColumn" style="margin-left: 33%; height:100px">
+			<input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?" class="ui blue button"> 
+			<input id="scoreBtnId" name="score" style="display:none" type="button" value="Current Score" class="ui blue button"> 
+			<div class="ui labeled button" tabindex="0" style="float:right">
+				<div class="ui green button" style="float:right">
+				</div>
+				<div class="ui red button" tabindex="0">
+				</div>
+			</div>
+		</div>
+		<div class="threeColumn" style="margin-left: 33%;">
+			<div id="imgId" style="float:right;"><img src="images/trivia.gif"></div>
+			<div style="float:right;">
+				<form>  
+					<div id="displayQueId"></div>
+					<div id="addQueDivId" style="display : none">
+						<div class="ui label">Type a question</div><textarea class="ui label" id="questionId"></textarea><br>
+						<div class="ui label">Answer</div><textarea class="ui label" id="answerId"></textarea><br>
+						<input class="ui blue button" id="submitBtnId" type="button" value="Submit"><br>
+					</div>
+					<div class="field">
+						<input type="text" name="userName" id="userNameId" placeholder="Enter your username">
+						<input class="ui blue button" id="playBtnId" name="playButton" type="button" value="PLAY"><br>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="onlineUser"></div>
+	</main>
+
+	<footer>
+		
+	</footer>
+</body>
 </html>

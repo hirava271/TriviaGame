@@ -79,14 +79,19 @@ var playGame = function(){
         $("#addQueDivId").hide();
         $("#playBtnId").hide();
         $("#imgId").hide();
+        $('#userNameId').hide();
        // $("div .scoreButton").show();
         var displayQuestions = function(element, index, array) {
-            var $item = $('<div id="allQueId" class="btn">' + '<div class="ui label" style="margin-top:60px">Question </div><textarea class="ui label" style="height:50px; width:300px;" id="queId' + index + '"></textarea><br>' + '<div class="ui label">Answer </div><textarea class="ui label" style="height:50px; width:300px;" id="ansId' + index + '"></textarea><br>' + '<input class="ui label" type="button" value="Send" id="sendBtnId' + index + '"><br></div>');
+            if(index == randomQue){
+                var $item = $('<div id="allQueId" class="btn">' + '<div class="ui label" style="margin-top:60px">Question </div><textarea class="ui label" style="height:50px; width:300px;" id="queId' + index + '"></textarea><br>' + '<div class="ui label">Answer </div><textarea class="ui label" style="height:50px; width:300px;" id="ansId' + index + '"></textarea><br>' + '<input class="ui label" type="button" value="Send" id="sendBtnId' + index + '"><br></div>');
             $("#displayQueId").append($item);
             $("#queId" + index).val(array[index].question);
+            }
         };
-        var msgArr = msg.toArray;
-        //console.log(msgArr);
+        //var msgArr = new Array(msg);
+        console.log(msg.length);
+        var randomQue = Math.floor(Math.random() * msg.length);
+        console.log(randomQue);
         msg.forEach(displayQuestions);
         var getAnswers = function(element, index, array) {
             $("#sendBtnId" + index).click(function() {
@@ -122,9 +127,11 @@ var main = function(){
     'use strict';
 
     console.log("At client side");
+    $('#scoreDivId').hide();
 
     $("#playBtnId").on('click', function(){
         console.log("Playing game...");
+        $('#scoreDivId').show();
         playGame();
     });
 

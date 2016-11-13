@@ -10,8 +10,10 @@ body{
 	margin: 70px;
 }
 
-nav{
+header, footer{
 	background-color: #2498D3;
+	width:100%;
+	height:100px;
 }
 
 .scoreButton{
@@ -27,4 +29,28 @@ nav{
 	width: 600px;
 	height: 250px;
 	border-radius: 10px;
+}
+
+#addQueDivId{
+	position: relative;
+	text-align: center;
+	font-size: 2em;
+	background-color: #2498D3;
+	left: 100px;
+	width: 600px;
+	height: 250px;
+	border-radius: 10px;
+}
+
+.onlineUser{
+	height: 200px;
+	width: 200px;
+	margin-left: 600px;
+	margin-top: 500px;
+	background-color: #2498D3;
+}
+
+.threeColumn{
+	height:200px;
+	width:33%;
 }
