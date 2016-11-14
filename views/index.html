@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src = "javascripts/app.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 	<header>
@@ -17,38 +18,44 @@
 	</header>
 
 	<main>
-		<div id="scoreDivId" class="scoreButton threeColumn" style="margin-left: 33%; height:100px">
-			<input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?" class="ui blue button"> 
-			<input id="scoreBtnId" name="score" style="display:none" type="button" value="Current Score" class="ui blue button"> 
-			<div class="ui labeled button" tabindex="0" style="float:right">
-				<div class="ui green button" style="float:right">
-				</div>
-				<div class="ui red button" tabindex="0">
-				</div>
+		<div style="height:5px; width:100%"></div>
+		<div id="scoreDivId">
+			<div id="scoreDivBtnId" style="float:right"><div id="scoreBtnId" name="score" class="ui label">Current Score:
+				<textarea id="rightAns" class="ui label"></textarea>
+				<textarea id="wrongAns" class="ui label"></textarea></div> 
 			</div>
+			<div id="addQueDivBtnId" style="float:right"><input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?" class="ui blue button"></div>
 		</div>
-		<div class="threeColumn" style="margin-left: 33%;">
+		<div style="height:5px; width:100%"></div>
+		<div class="threeColumn" style="margin-left: 30%;" id="playBtnDivId">
 			<div id="imgId" style="float:right;"><img src="images/trivia.gif"></div>
-			<div style="float:right;">
-				<form>  
-					<div id="displayQueId"></div>
-					<div id="addQueDivId" style="display : none">
-						<div class="ui label">Type a question</div><textarea class="ui label" id="questionId"></textarea><br>
-						<div class="ui label">Answer</div><textarea class="ui label" id="answerId"></textarea><br>
-						<input class="ui blue button" id="submitBtnId" type="button" value="Submit"><br>
-					</div>
-					<div class="field">
-						<input type="text" name="userName" id="userNameId" placeholder="Enter your username">
-						<input class="ui blue button" id="playBtnId" name="playButton" type="button" value="PLAY"><br>
-					</div>
-				</form>
+			<div class="field">
+				<input type="text" name="userName" id="userNameId" placeholder="Enter your username">
+				<input class="ui blue button" id="playBtnId" name="playButton" type="button" value="PLAY"><br>
 			</div>
 		</div>
-		<div class="onlineUser"></div>
-	</main>
-
-	<footer>
-		
-	</footer>
+		<div id="displayQueId">
+			<input type="hidden" id="askedQueId">
+			<input type="hidden" id="askedQueAns">
+			<input type="hidden" id="currentUserId">
+			<div id="allQueId" class="btn">
+				<div class="ui label" style="margin-top:60px">Question </div>
+				<textarea class="ui label" style="height:50px; width:300px;" id="queId"></textarea><br> 
+				<div class="ui label">Answer </div>
+				<textarea class="ui label" style="height:50px; width:300px;" id="ansId"></textarea><br> 
+				<input class="ui label" type="button" value="Send" id="sendBtnId">
+				<input class="ui label" type="button" value="Next" id="nextBtnId"><br>
+			</div>
+		</div>
+		<div id="addQueDivId" style="display : none">
+			<div class="ui label">Type a question</div><textarea class="ui label" id="questionId"></textarea><br>
+			<div class="ui label">Answer</div><textarea class="ui label" id="answerId"></textarea><br>
+			<input class="ui blue button" id="submitBtnId" type="button" value="Submit"><br>
+		</div>
+	</div>
+	<div id="onlineUser" style="float:right"></div>
+</main>
+<footer>
+</footer>
 </body>
 </html>

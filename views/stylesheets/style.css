@@ -16,23 +16,63 @@ header, footer{
 	height:100px;
 }
 
-.scoreButton{
-	margin-left: 600px;
+main{
+	height:350px;
+	width:100%;
 }
 
-#allQueId{
-	position: relative;
+#scoreBtnId{
+	height:50px;
+	width:255px;
+	display:none; 
+	background-color:#2498D3;
+	color: #FFF;
+}
+
+#rightAns, #wrongAns{
+	width:70px;
+}
+
+#rightAns{
+	background-color: #33D166;
+}
+
+#wrongAns{
+	background-color: #F1492A;
+}
+
+#scoreDivId{
+	height:50px;
+	width:100%;
+}
+
+#addQueDivBtnId, #scoreDivBtnId{ 
+	width:30%;
+}
+
+#displayQueId{
 	text-align: center;
 	font-size: 2em;
 	background-color: #2498D3;
 	left: 100px;
 	width: 600px;
+	height: 250px;
+	border-radius: 10px;
+	float:left;
+	margin-left: 150px;
+}
+
+#onlineUser{
+	text-align: center;
+	font-size: 2em;
+	background-color: #2498D3;
+	left: 700px;
+	width: 300px;
 	height: 250px;
 	border-radius: 10px;
 }
 
 #addQueDivId{
-	position: relative;
 	text-align: center;
 	font-size: 2em;
 	background-color: #2498D3;
@@ -40,6 +80,8 @@ header, footer{
 	width: 600px;
 	height: 250px;
 	border-radius: 10px;
+	float:left;
+	margin-left: 150px;
 }
 
 .onlineUser{
@@ -52,5 +94,5 @@ header, footer{
 
 .threeColumn{
 	height:200px;
-	width:33%;
+	width:250px;
 }

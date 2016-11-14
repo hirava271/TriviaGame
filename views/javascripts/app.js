@@ -46,16 +46,6 @@ var postQuestion = function(){
         $("#addQueBtnId").show();
         $("#addQueDivId").hide();
         $("#userNameId").hide();
-        var displayQuestions = function(element, index, array) {
-            var len = array.length;
-            console.log(len);
-            if (index == array.length - 1) {
-                var $item = $('<div id="allQueId" class="btn">' + '<div class="ui label" style="margin-top:60px">Question </div><textarea class="ui label" style="height:50px; width:300px;" id="queId' + index + '"></textarea><br>' + '<div class="ui label">Answer </div><textarea class="ui label" style="height:50px; width:300px;" id="queId' + index + '"></textarea><br>' + '<input class="ui label" type="button" value="Send" id="sendBtnId' + index + '"><br></div>');
-                $("#displayQueId").append($item);
-                $("#queId" + index).val(array[index].question);
-            }
-        };
-        msg.forEach(displayQuestions);
     });
 };
 
@@ -77,63 +67,75 @@ var playGame = function(){
         $("#scoreBtnId").show();
         $("#addQueBtnId").show();
         $("#addQueDivId").hide();
-        $("#playBtnId").hide();
-        $("#imgId").hide();
-        $('#userNameId').hide();
-       // $("div .scoreButton").show();
-        var displayQuestions = function(element, index, array) {
-            if(index == randomQue){
-                var $item = $('<div id="allQueId" class="btn">' + '<div class="ui label" style="margin-top:60px">Question </div><textarea class="ui label" style="height:50px; width:300px;" id="queId' + index + '"></textarea><br>' + '<div class="ui label">Answer </div><textarea class="ui label" style="height:50px; width:300px;" id="ansId' + index + '"></textarea><br>' + '<input class="ui label" type="button" value="Send" id="sendBtnId' + index + '"><br></div>');
-            $("#displayQueId").append($item);
-            $("#queId" + index).val(array[index].question);
-            }
-        };
-        //var msgArr = new Array(msg);
-        console.log(msg.length);
-        var randomQue = Math.floor(Math.random() * msg.length);
-        console.log(randomQue);
-        msg.forEach(displayQuestions);
-        var getAnswers = function(element, index, array) {
-            $("#sendBtnId" + index).click(function() {
-                var ans = $("#ansId" + index).val();
-                $("#ansId" + index).val('');
-                var ansId = array[index]._id;
-                var actualAns = array[index].answer;
-                var url = "answer";
-                var data = {
-                    "answerId": ansId,
-                    "possibleAns": ans,
-                    "answer": actualAns
-                };
-                var dataJSON = JSON.stringify(data);
-                $.ajax({
-                    method: "POST",
-                    url: "http://localhost:3000/" + url,
-                    crossDomain: true,
-                    dataType: "json",
-                    data: data
-                }).done(function(msg) {
-                    if (msg.answer === false) {
-                        msg.answer = "false";
-                    }
-                });
-            });
-        };
-        msg.forEach(getAnswers);
+        $("#playBtnDivId").hide();
+        $('#displayQueId').show();
+        $('#onlineUser').show();
     });
 };
 
 var main = function(){
     'use strict';
 
+    var socket = io(),
+        userName;
+
     console.log("At client side");
     $('#scoreDivId').hide();
+    $('#displayQueId').hide();
+    $('#onlineUser').hide();
 
     $("#playBtnId").on('click', function(){
         console.log("Playing game...");
         $('#scoreDivId').show();
         playGame();
+        socket.emit('play', $('#userNameId').val());
     });
+
+    socket.on('play', function(name){
+        var item;
+        $('#currentUserId').val(name);
+        userName = name;
+        //console.log(name.length);
+        //for(var i=0; i<name.length; i++){
+       // $('#onlineUser').append(userName);
+        item = $('<textarea class="ui label" id="'+name+'">').text(name);
+        $('#onlineUser').append(item);
+    });
+
+    socket.on('newQue', function(question){
+        $('#queId').val(question.question);
+        $('#askedQueId').val(question._id);
+        $('#askedQueAns').val(question.answer);
+        $('#'+userName).css("color","black");
+    });
+
+    $('#sendBtnId').on('click', function(){
+        console.log($('#ansId').val());
+        console.log("Question ::::: ",$('#askedQueId').val());
+        socket.emit('score', { questionId : $('#askedQueId').val(), givenAns : $('#ansId').val(), actualAns : $('#askedQueAns').val()});
+    });
+
+    $('#nextBtnId').on('click', function(){
+        $('#ansId').val('');
+        playGame();
+    });
+
+    socket.on('score', function(data){
+        $('#rightAns').val(data.right);
+        $('#wrongAns').val(data.wrong);
+        console.log($('#currentUserId').val());
+        if(data.flag == 1){
+            if($('#currentUserId').val() == $('#'+userName+'').text()) {
+                $('#'+userName+'').css("color","#33D166");
+            }
+        }
+        if(data.flag == 0){
+            if($('#currentUserId').val() == $('#'+userName+'').text()) {
+                $('#'+userName+'').css("color","#F1492A");
+        }
+        }
+    });
+    
 
     $("#addQueBtnId").on('click', function() {
         $("#addQueDivId").show();
@@ -141,10 +143,6 @@ var main = function(){
         $("#addQueBtnId").hide();
         $("#playBtnId").hide();
         $("#userNameId").hide();
-    });
-
-    $("#scoreBtnId").on('click' ,function(){
-        getScore();
     });
 
     $("#submitBtnId").on('click' ,function(){

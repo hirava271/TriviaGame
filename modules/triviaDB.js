@@ -3,12 +3,18 @@ var mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost/triviaGame');
 
 // Create a movie schema
-var triviaGameSchema = mongoose.Schema({
+var triviaGameSchema = new mongoose.Schema({
     question: String,
-    answer: String,
+    answer: String
 });
 
+/*var userSchema = new mongoose.Schema({
+	userName : String
+});
+*/
 // Create a database collection model
-var triviaGame = mongoose.model('triviaGame', triviaGameSchema);
+var triviaGameDB = mongoose.model('triviaGame', triviaGameSchema);
+//var userDB = mongoose.model('user', userSchema);
 
-module.exports.triviaGame = triviaGame;
+module.exports = triviaGameDB;
+//module.exports.userDB = userDB;
