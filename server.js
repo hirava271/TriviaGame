@@ -2,7 +2,6 @@ var express = require('express'),
 app = express(),
 http = require('http').Server(app),
 parser = require("body-parser"),
-MongoClient = require('mongodb').MongoClient,
 redis = require('redis'),
 mongoose = require('mongoose'),
 client = redis.createClient(),
@@ -25,15 +24,13 @@ var url = 'mongodb://localhost/triviaGame';
 mongoose.connect(url);
 mongoose.set('debug', true);
 
-// Create a movie schema
 var triviaGameSchema = new mongoose.Schema({
-    question: String,
-    answer: String
+	question: String,
+	answer: String
 });
 
 var collectionName = 'questionTable';
 
-// Create a database collection model
 var triviaGameDB = mongoose.model('triviaGame', triviaGameSchema, collectionName);
 var connectionArr = [];
 var userNameArr = [];
@@ -94,7 +91,6 @@ io.sockets.on('connection', function(socket){
 });
 
 app.get('/question', function(req, res) {
-	var totalQue;
 	triviaGameDB.find({}, '_id question answer', function(err, documents){
 		if(err){
 			console.log('error'+err);
@@ -110,25 +106,34 @@ app.get('/question', function(req, res) {
 });
 
 app.post('/question', function(req, res) {
-	var question = req.body.question;
-	var answer = req.body.answer;
-	var insertDocument = function(db, callback) {
-		db.collection('questionTable').insert({
-			"question": question,
-			"answer": answer
-		});
-		var data = db.collection('questionTable').find().toArray(function(err, documents) {
-			var randomQue = documents[Math.floor(Math.random() * documents.length)];
-			console.log(randomQue);
-			res.json({newQuestion:randomQue});
-			getQuestion(randomQue);
-        });
-	};
-	MongoClient.connect(url, function(err, db) {
-		assert.equal(null, err);
-		insertDocument(db, function() {
-			db.close();
-		});
+	console.log("I am inside post question function");
+	triviaGameDB.findOne({question: req.body.question}).exec(function(err, documents){
+		if(!documents){
+			var que = new triviaGameDB({question: req.body.question, answer:req.body.answer});
+			que.save(function(err, result) {
+				if(err){
+					console.log("Error......"+err);
+				}
+				else{
+					console.log("question added successfully...");
+				}
+			});
+			triviaGameDB.find({}, '_id question answer', function(err, documents){
+						if(err){
+							console.log("Error"+err);
+						}
+						else{
+							var randomQue = documents[Math.floor(Math.random() * documents.length)];
+							console.log(randomQue);
+							res.json({newQuestion:randomQue});
+							getQuestion(randomQue);
+						}
+					});
+		}
+		else{
+			console.log("Question already exists...");
+			res.json({message : "Question already exists.."});
+		}
 	});
 });
 require('./routes/index')(app);

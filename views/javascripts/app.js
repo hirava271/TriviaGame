@@ -46,6 +46,9 @@ var postQuestion = function(){
         $("#addQueBtnId").show();
         $("#addQueDivId").hide();
         $("#userNameId").hide();
+        alert(msg.message);
+        $("#questionId").val('');
+        $("#ansId").val('');
     });
 };
 
@@ -87,18 +90,18 @@ var main = function(){
     $("#playBtnId").on('click', function(){
         console.log("Playing game...");
         $('#scoreDivId').show();
+        userName = $('#userNameId').val();
+        $('#currentUserId').val(userName);
+        console.log("Current user: "+userName);
         playGame();
-        socket.emit('play', $('#userNameId').val());
+        socket.emit('play', userName);
     });
 
     socket.on('play', function(name){
         var item;
-        $('#currentUserId').val(name);
-        userName = name;
-        //console.log(name.length);
         //for(var i=0; i<name.length; i++){
        // $('#onlineUser').append(userName);
-        item = $('<textarea class="ui label" id="'+name+'">').text(name);
+        item = $('<textarea readonly="true" class="ui label" id="'+name+'">').text(name);
         $('#onlineUser').append(item);
     });
 
@@ -143,10 +146,12 @@ var main = function(){
         $("#addQueBtnId").hide();
         $("#playBtnId").hide();
         $("#userNameId").hide();
+        $("#answerId").val('');
     });
 
     $("#submitBtnId").on('click' ,function(){
         postQuestion();
+
     });
 };
 

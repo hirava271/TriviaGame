@@ -20,9 +20,10 @@
 	<main>
 		<div style="height:5px; width:100%"></div>
 		<div id="scoreDivId">
-			<div id="scoreDivBtnId" style="float:right"><div id="scoreBtnId" name="score" class="ui label">Current Score:
-				<textarea id="rightAns" class="ui label"></textarea>
-				<textarea id="wrongAns" class="ui label"></textarea></div> 
+			<div id="scoreDivBtnId" style="float:right">
+			<div id="scoreBtnId" name="score" class="ui label">Current Score:
+				<textarea readonly="true" id="rightAns" class="ui label"></textarea>
+				<textarea readonly="true" id="wrongAns" class="ui label"></textarea></div> 
 			</div>
 			<div id="addQueDivBtnId" style="float:right"><input id="addQueBtnId" name="addButton" style="display:none" type="button" value="Add a question?" class="ui blue button"></div>
 		</div>
@@ -40,7 +41,7 @@
 			<input type="hidden" id="currentUserId">
 			<div id="allQueId" class="btn">
 				<div class="ui label" style="margin-top:60px">Question </div>
-				<textarea class="ui label" style="height:50px; width:300px;" id="queId"></textarea><br> 
+				<textarea readonly="true" class="ui label" style="height:50px; width:300px;" id="queId"></textarea><br> 
 				<div class="ui label">Answer </div>
 				<textarea class="ui label" style="height:50px; width:300px;" id="ansId"></textarea><br> 
 				<input class="ui label" type="button" value="Send" id="sendBtnId">
